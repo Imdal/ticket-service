@@ -1,13 +1,7 @@
-package com.epam.training.ticketservice;
+package com.epam.training.ticketservice.presentation;
 
-import org.jline.utils.AttributedStyle;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-
-import java.text.AttributedString;
-import java.util.Locale;
-import java.util.Scanner;
 
 @SpringBootApplication(scanBasePackages = "com.epam.training.ticketservice")
 public class Application {

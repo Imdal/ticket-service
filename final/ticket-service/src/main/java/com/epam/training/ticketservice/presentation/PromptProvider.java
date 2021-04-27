@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice;
+package com.epam.training.ticketservice.presentation;
 
 import org.jline.utils.AttributedString;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice;
+package com.epam.training.ticketservice.dataaccess;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,10 +15,10 @@ public class UserProjection {
     private String password;
     private String accountType;
 
-    public UserProjection(String username, String password) {
+    public UserProjection(String username, String password, String accountType) {
         this.username=username;
         this.password=password;
-        this.accountType="User";
+        this.accountType=accountType;
     }
 
     public  UserProjection() {}

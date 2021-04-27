@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice;
+package com.epam.training.ticketservice.service;
 
 import org.springframework.stereotype.Service;
 
