@@ -5,19 +5,18 @@ public class User {
     private String password;
     private String accountType;
 
-    public User(String username, String password) {
+    public User(String username, String password, String accountType) {
         this.username = username;
         this.password = password;
-        this.accountType = "User";
-    }
-
-    public boolean signUp(String username, String password) {
-        return true;
-
+        this.accountType = accountType;
     }
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getAccountType() {

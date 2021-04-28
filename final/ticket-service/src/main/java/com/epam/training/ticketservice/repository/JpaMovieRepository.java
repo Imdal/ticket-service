@@ -20,30 +20,4 @@ public class JpaMovieRepository {
         this.movieDao = movieDao;
     }
 
-//    @Override
-//    public void saveMovie(Movie movie) {
-//
-//        movieDao.save(mapMovie(movie));
-//    }
-
-    private MovieProjection mapMovie(Movie movie) {
-        return new MovieProjection(movie.getTitle(), movie.getGenre(), movie.getLength());
-    }
-
-
-
-    public List<Movie> getAllMovie() {
-        List<MovieProjection> movieProjections = movieDao.findAll();
-        return mapMovieProjections(movieProjections);
-    }
-
-    private List<Movie> mapMovieProjections(List<MovieProjection> movieProjections) {
-        return movieProjections.stream()
-                .map(this::mapMovieProjection)
-                .collect(Collectors.toList());
-    }
-
-    private Movie mapMovieProjection(MovieProjection movieProjection) {
-        return new MovieImpl(movieProjection.getTitle(), movieProjection.getGenre(), movieProjection.getLength());
-    }
 }

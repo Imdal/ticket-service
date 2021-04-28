@@ -12,4 +12,7 @@ public class JpaUserRepository {
     public JpaUserRepository(UserDao userDao) {
         this.userDao = userDao;
     }
+
+
+
 }
