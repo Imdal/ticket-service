@@ -13,12 +13,12 @@ public class Command {
         this.authService = authService;
     }
 
-    @ShellMethod(value = "Exit program", key = "exit")
-    public void exit() {
-        System.exit(0);
-    }
+//    @ShellMethod(value = "Exit program", key = "exit")
+//    public void exit() {
+//        System.exit(0);
+//    }
 
-    @ShellMethod(value = "Log in", key="log in")
+    @ShellMethod(value = "Log in", key = "log in")
     public void login(String username, String password) {
         authService.logIn(username, password);
     }

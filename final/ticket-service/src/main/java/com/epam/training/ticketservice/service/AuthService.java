@@ -6,11 +6,12 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     //private User currentUser;
 
-    AuthService () {
+    AuthService() {
 
     }
 
     public boolean logIn(String username, String password) {
+        System.out.println("logIn");
         return false;
     }
 

@@ -1,6 +1,6 @@
 package com.epam.training.ticketservice.repository;
 
-import com.epam.training.ticketservice.dataaccess.UserDao;
+import com.epam.training.ticketservice.dataaccess.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,6 +10,6 @@ public class JpaUserRepository {
 
     @Autowired
     public JpaUserRepository(UserDao userDao) {
-        this.userDao=userDao;
+        this.userDao = userDao;
     }
 }

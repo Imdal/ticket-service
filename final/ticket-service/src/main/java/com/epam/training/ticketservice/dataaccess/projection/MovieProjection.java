@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.dataaccess;
+package com.epam.training.ticketservice.dataaccess.projection;
 
 
 import javax.persistence.Entity;
@@ -12,7 +12,9 @@ public class MovieProjection {
     private String genre;
     private int length;
 
-    protected MovieProjection() {}
+    protected MovieProjection() {
+
+    }
 
     public MovieProjection(String title, String genre, int length) {
         this.title = title;
@@ -20,10 +22,16 @@ public class MovieProjection {
         this.length = length;
     }
 
-    public String getTitle() {return title;}
+    public String getTitle() {
+        return title;
+    }
 
-    public String getGenre() {return genre;}
+    public String getGenre() {
+        return genre;
+    }
 
-    public int getLength() {return length;}
+    public int getLength() {
+        return length;
+    }
 
 }

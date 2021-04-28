@@ -5,7 +5,7 @@ import com.epam.training.ticketservice.domain.Movie;
 import java.util.List;
 
 public interface MovieRepository {
-    List<Movie> getAllMovie();
+//    List<Movie> getAllMovie();
     void saveMovie(Movie movie);
 
 }

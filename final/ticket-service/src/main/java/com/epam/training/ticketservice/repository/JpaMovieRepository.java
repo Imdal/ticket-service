@@ -1,7 +1,7 @@
 package com.epam.training.ticketservice.repository;
 
-import com.epam.training.ticketservice.dataaccess.MovieDao;
-import com.epam.training.ticketservice.dataaccess.MovieProjection;
+import com.epam.training.ticketservice.dataaccess.dao.MovieDao;
+import com.epam.training.ticketservice.dataaccess.projection.MovieProjection;
 import com.epam.training.ticketservice.domain.Movie;
 import com.epam.training.ticketservice.domain.MovieImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ public class JpaMovieRepository {
 
     @Autowired
     public JpaMovieRepository(MovieDao movieDao) {
-        this.movieDao=movieDao;
+        this.movieDao = movieDao;
     }
 
-    @Override
-    public void saveMovie(Movie movie) {
-
-        movieDao.save(mapMovie(movie));
-    }
+//    @Override
+//    public void saveMovie(Movie movie) {
+//
+//        movieDao.save(mapMovie(movie));
+//    }
 
     private MovieProjection mapMovie(Movie movie) {
         return new MovieProjection(movie.getTitle(), movie.getGenre(), movie.getLength());

@@ -6,9 +6,9 @@ public class User {
     private String accountType;
 
     public User(String username, String password) {
-        this.username=username;
-        this.password=password;
-        this.accountType="User";
+        this.username = username;
+        this.password = password;
+        this.accountType = "User";
     }
 
     public boolean signUp(String username, String password) {
