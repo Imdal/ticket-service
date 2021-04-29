@@ -7,6 +7,8 @@ import com.epam.training.ticketservice.service.ScreeningService;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @ShellComponent
@@ -18,18 +20,17 @@ public class ScreeningCommandHandler {
     }
 
     @ShellMethod(value = "Create screening", key = "create screening")
-    public void createScreening(String movieTitle, String roomName, java.sql.Date screeningDate, java.sql.Time screeningTime) {
-        screeningService.createScreening(movieTitle, roomName, screeningDate, screeningTime);
+    public void createScreening(String movieTitle, String roomName, String screeningDate, String screeningTime) {
+        Date date = Date.valueOf(screeningDate);
+        Time time = Time.valueOf(screeningTime + ":00");
+        screeningService.createScreening(movieTitle, roomName, date, time);
     }
 
-//    @ShellMethod(value = "Update screening", key = "update screening")
-//    public void updateRoom(String movieTitle, String roomName, java.sql.Timestamp screeningDate) {
-//        screeningService.updateScreening(movieTitle, roomName, screeningDate);
-//    }
-
     @ShellMethod(value = "Delete screening", key = "delete screening")
-    public void deleteScreening(String movieTitle, String roomName, java.sql.Date screeningDate, java.sql.Time screeningTime) {
-        screeningService.deleteScreening(movieTitle, roomName, screeningDate, screeningTime);
+    public void deleteScreening(String movieTitle, String roomName, String screeningDate, String screeningTime) {
+        Date date = Date.valueOf(screeningDate);
+        Time time = Time.valueOf(screeningTime + ":00");
+        screeningService.deleteScreening(movieTitle, roomName, date, time);
     }
 
     @ShellMethod(value = "List screenings", key = "list screenings")
