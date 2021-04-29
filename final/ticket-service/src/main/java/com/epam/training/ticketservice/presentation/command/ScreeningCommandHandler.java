@@ -1,10 +1,8 @@
 package com.epam.training.ticketservice.presentation.command;
 
 import com.epam.training.ticketservice.domain.Movie;
-import com.epam.training.ticketservice.domain.Room;
 import com.epam.training.ticketservice.domain.Screening;
 import com.epam.training.ticketservice.service.MovieService;
-import com.epam.training.ticketservice.service.RoomService;
 import com.epam.training.ticketservice.service.ScreeningService;
 import com.epam.training.ticketservice.service.UserService;
 import org.springframework.shell.standard.ShellComponent;
@@ -28,7 +26,7 @@ public class ScreeningCommandHandler {
 
     @ShellMethod(value = "Create screening", key = "create screening")
     public void createScreening(String movieTitle, String roomName, String screeningDate, String screeningTime) {
-        if (userService.idUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
+        if (userService.isUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
             Date date = Date.valueOf(screeningDate);
             Time time = Time.valueOf(screeningTime + ":00");
             screeningService.createScreening(movieTitle, roomName, date, time);
@@ -37,7 +35,7 @@ public class ScreeningCommandHandler {
 
     @ShellMethod(value = "Delete screening", key = "delete screening")
     public void deleteScreening(String movieTitle, String roomName, String screeningDate, String screeningTime) {
-        if (userService.idUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
+        if (userService.isUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
             Date date = Date.valueOf(screeningDate);
             Time time = Time.valueOf(screeningTime + ":00");
             screeningService.deleteScreening(movieTitle, roomName, date, time);

@@ -34,7 +34,7 @@ public class UserService {
         return currentUser;
     }
 
-    public boolean idUserSignedIn() {
+    public boolean isUserSignedIn() {
         if (currentUser == null) {
             return false;
         } else {

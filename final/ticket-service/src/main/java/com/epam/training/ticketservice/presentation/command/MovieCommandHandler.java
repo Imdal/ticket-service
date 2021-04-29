@@ -1,7 +1,6 @@
 package com.epam.training.ticketservice.presentation.command;
 
 import com.epam.training.ticketservice.domain.Movie;
-import com.epam.training.ticketservice.domain.Room;
 import com.epam.training.ticketservice.service.MovieService;
 import com.epam.training.ticketservice.service.UserService;
 import org.springframework.shell.standard.ShellComponent;
@@ -22,21 +21,21 @@ public class MovieCommandHandler {
 
     @ShellMethod(value = "Create movie", key = "create movie")
     public void createMovie(String title, String genre, int length) {
-        if (userService.idUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
+        if (userService.isUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
             movieService.createMovie(title, genre, length);
         }
     }
 
     @ShellMethod(value = "Update movie", key = "update movie")
     public void updateMovie(String title, String genre, int length) {
-        if (userService.idUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
+        if (userService.isUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
             movieService.updateMovie(title, genre, length);
         }
     }
 
     @ShellMethod(value = "Delete movie", key = "delete movie")
     public void deleteMovie(String title, String genre, int length) {
-        if (userService.idUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
+        if (userService.isUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
             movieService.deleteMovie(title, genre, length);
         }
     }

@@ -38,7 +38,7 @@ public class UserCommandHandler {
     public void describeAccount() {
         User user = userService.describeAccount();
 
-        if (!userService.idUserSignedIn()) {
+        if (!userService.isUserSignedIn()) {
             System.out.println("You are not signed in");
         } else if (user.getAccountType().equals("admin")) {
             System.out.println("Signed in with privileged account '" + user.getUsername() + "'");
