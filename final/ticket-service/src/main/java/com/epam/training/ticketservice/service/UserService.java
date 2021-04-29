@@ -1,7 +1,6 @@
 package com.epam.training.ticketservice.service;
 
 import com.epam.training.ticketservice.domain.User;
-import com.epam.training.ticketservice.repository.JpaUserRepository;
 import org.springframework.stereotype.Service;
 
 @Service

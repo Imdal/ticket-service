@@ -1,4 +1,4 @@
-package com.epam.training.ticketservice.repository;
+package com.epam.training.ticketservice.dataaccess.repository;
 
 import com.epam.training.ticketservice.dataaccess.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,8 @@ public class JpaUserRepository {
     public JpaUserRepository(UserDao userDao) {
         this.userDao = userDao;
     }
+
+
 
 
 

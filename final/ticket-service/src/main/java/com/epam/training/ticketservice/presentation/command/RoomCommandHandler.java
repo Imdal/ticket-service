@@ -1,8 +1,12 @@
 package com.epam.training.ticketservice.presentation.command;
 
+import com.epam.training.ticketservice.domain.Movie;
+import com.epam.training.ticketservice.domain.Room;
 import com.epam.training.ticketservice.service.RoomService;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+
+import java.util.List;
 
 @ShellComponent
 public class RoomCommandHandler {
@@ -29,6 +33,10 @@ public class RoomCommandHandler {
 
     @ShellMethod(value = "List rooms", key = "list rooms")
     public void listRooms() {
-        roomService.listRooms();
+        List<Room> roomList = roomService.listRooms();
+        if(roomList.isEmpty())
+            System.out.println("There are no rooms at the moment");
+        else
+            System.out.println(roomList.toString());
     }
 }

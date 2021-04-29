@@ -22,4 +22,9 @@ public class Room {
     public int getColNumber() {
         return colNumber;
     }
+
+    public String toString() {
+        return "Room " + name + " with " + rowNumber*colNumber + " seats, " + rowNumber + " rows and " + colNumber + " columns";
+    }
+
 }

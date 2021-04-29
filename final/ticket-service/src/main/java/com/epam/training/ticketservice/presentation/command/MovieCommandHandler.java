@@ -1,8 +1,11 @@
 package com.epam.training.ticketservice.presentation.command;
 
+import com.epam.training.ticketservice.domain.Movie;
 import com.epam.training.ticketservice.service.MovieService;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
+
+import java.util.List;
 
 @ShellComponent
 public class MovieCommandHandler {
@@ -29,7 +32,11 @@ public class MovieCommandHandler {
 
     @ShellMethod(value = "List movies", key = "list movies")
     public void listMovies() {
-        movieService.listMovies();
+        List<Movie> movieList = movieService.listMovies();
+        if(movieList.isEmpty())
+            System.out.println("There are no movies at the moment");
+        else
+            System.out.println(movieList.toString());
     }
 
 }

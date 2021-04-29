@@ -1,36 +1,35 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.dataaccess.dao.implementation.MovieDaoImpl;
 import com.epam.training.ticketservice.domain.Movie;
-import com.epam.training.ticketservice.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 
 @Service
 public class MovieService {
 
-    MovieService() {
+    private MovieDaoImpl movieDao;
 
+    @Autowired
+    public MovieService(MovieDaoImpl movieDao) {
+        this.movieDao = movieDao;
     }
 
-    public boolean createMovie(String title, String genre, int length) {
-        System.out.println("createMovie");
-        return false;
+    public void createMovie(String title, String genre, int length) {
+        movieDao.createMovie(new Movie(title, genre, length));
     }
 
-    public boolean updateMovie(String title, String genre, int length) {
-        System.out.println("updateMovie");
-        return false;
+    public void updateMovie(String title, String genre, int length) {
+        movieDao.updateMovie(new Movie(title, genre, length));
     }
 
-    public boolean deleteMovie(String title, String genre, int length) {
-        System.out.println("deleteMovie");
-        return false;
+    public void deleteMovie(String title, String genre, int length) {
+        movieDao.deleteMovie(new Movie(title, genre, length));
     }
 
-//    public Collection<Movie> listMovies() {
-    public Movie listMovies() {
-        System.out.println("listMovies");
-        return new Movie("","",0);
+    public List<Movie> listMovies() {
+        return movieDao.listMovies();
     }
 }
