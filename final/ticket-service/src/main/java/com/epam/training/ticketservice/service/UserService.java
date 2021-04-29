@@ -1,5 +1,7 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.dataaccess.dao.implementation.ScreeningDaoImpl;
+import com.epam.training.ticketservice.dataaccess.dao.implementation.UserDaoImpl;
 import com.epam.training.ticketservice.domain.User;
 import org.springframework.stereotype.Service;
 
@@ -7,27 +9,28 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private User currentUser;
 
-    UserService() {
+    private UserDaoImpl userDao;
 
+    UserService(UserDaoImpl userDao) {
+        this.userDao = userDao;
     }
 
-    public boolean signUp(String username, String password) {
-        System.out.println("signup");
-        return false;
+    public void signUp(String username, String password) {
+        userDao.createUser(new User(username, password, "user"));
     }
 
-    public boolean signIn(String username, String password) {
-        System.out.println("signin");
-        return false;
+    public void signIn(String username, String password) {
+        User user = userDao.getUserByName(username);
+        if(user.getPassword().equals(password)) {
+            currentUser = user;
+        }
     }
 
-    public boolean signOut() {
-        System.out.println("signout");
-        return false;
+    public void signOut() {
+        currentUser = null;
     }
 
-    public String describeAccount() {
-        System.out.println("describeaccount");
-        return "valami";
+    public User describeAccount() {
+        return currentUser;
     }
 }

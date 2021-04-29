@@ -8,8 +8,6 @@ import java.util.UUID;
 @Entity
 public class UserProjection {
     @Id
-    @GeneratedValue
-    private UUID id;
     private String username;
     private String password;
     private String accountType;

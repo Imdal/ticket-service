@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.presentation.command;
 
+import com.epam.training.ticketservice.domain.User;
 import com.epam.training.ticketservice.service.UserService;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
@@ -23,6 +24,11 @@ public class UserCommandHandler {
         userService.signIn(username, password);
     }
 
+    @ShellMethod(value = "Sign in privileged", key = "sign in privileged")
+    public void signInPrivileged(String username, String password) {
+        userService.signIn(username, password);
+    }
+
     @ShellMethod(value = "Sign out", key = "sign out")
     public void signOut() {
         userService.signOut();
@@ -30,7 +36,15 @@ public class UserCommandHandler {
 
     @ShellMethod(value = "Describe account", key = "describe account")
     public void describeAccount() {
-        userService.describeAccount();
+        User user = userService.describeAccount();
+        if(user == null) {
+            System.out.println("You are not signed in");
+        }
+        else if(user.getAccountType()=="admin")
+            System.out.println("Signed in with privileged account '" + user.getUsername() + "'");
+        else
+            System.out.println("Signed in with account '" + user.getUsername() + "'");
+
     }
 
 }

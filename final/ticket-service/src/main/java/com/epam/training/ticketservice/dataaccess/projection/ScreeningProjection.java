@@ -13,16 +13,18 @@ public class ScreeningProjection {
 
     private String movieTitle;
     private String roomName;
-    private java.sql.Timestamp screeningDate;
+    private java.sql.Date screeningDate;
+    private java.sql.Time screeningTime;
 
     protected ScreeningProjection() {
 
     }
 
-    private ScreeningProjection(String movieTitle, String roomName, java.sql.Timestamp screeningDate) {
+    public ScreeningProjection(String movieTitle, String roomName, java.sql.Date screeningDate, java.sql.Time screeningTime) {
         this.movieTitle = movieTitle;
         this.roomName = roomName;
         this.screeningDate = screeningDate;
+        this.screeningTime = screeningTime;
     }
 
     public String getMovieTitle() {
@@ -33,7 +35,11 @@ public class ScreeningProjection {
         return roomName;
     }
 
-    public java.sql.Timestamp getScreeningDate() {
+    public java.sql.Date getScreeningDate() {
         return screeningDate;
+    }
+
+    public java.sql.Time getScreeningTime() {
+        return screeningTime;
     }
 }
