@@ -37,13 +37,14 @@ public class UserCommandHandler {
     @ShellMethod(value = "Describe account", key = "describe account")
     public void describeAccount() {
         User user = userService.describeAccount();
-        if(user == null) {
+
+        if (!userService.idUserSignedIn()) {
             System.out.println("You are not signed in");
-        }
-        else if(user.getAccountType()=="admin")
+        } else if (user.getAccountType().equals("admin")) {
             System.out.println("Signed in with privileged account '" + user.getUsername() + "'");
-        else
+        } else {
             System.out.println("Signed in with account '" + user.getUsername() + "'");
+        }
 
     }
 

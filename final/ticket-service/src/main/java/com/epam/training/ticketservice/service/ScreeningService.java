@@ -17,16 +17,13 @@ public class ScreeningService {
         this.screeningDao = screeningDao;
     }
 
-    public void createScreening(String movieTitle, String roomName, java.sql.Date screeningDate, java.sql.Time screeningTime) {
+    public void createScreening(String movieTitle, String roomName,
+                                java.sql.Date screeningDate, java.sql.Time screeningTime) {
         screeningDao.createScreening(new Screening(movieTitle, roomName, screeningDate, screeningTime));
     }
 
-//    public boolean updateScreening(String movieTitle, String roomName, java.sql.Timestamp screeningDate) {
-//        System.out.println("updateScreening");
-//        return false;
-//    }
-
-    public void deleteScreening(String movieTitle, String roomName, java.sql.Date screeningDate, java.sql.Time screeningTime) {
+    public void deleteScreening(String movieTitle, String roomName,
+                                java.sql.Date screeningDate, java.sql.Time screeningTime) {
         screeningDao.deleteScreening(new Screening(movieTitle, roomName, screeningDate, screeningTime));
     }
 

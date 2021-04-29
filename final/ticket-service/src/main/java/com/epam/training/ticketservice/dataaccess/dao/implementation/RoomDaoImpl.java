@@ -1,11 +1,8 @@
 package com.epam.training.ticketservice.dataaccess.dao.implementation;
 
 import com.epam.training.ticketservice.dataaccess.dao.RoomDao;
-import com.epam.training.ticketservice.dataaccess.projection.MovieProjection;
 import com.epam.training.ticketservice.dataaccess.projection.RoomProjection;
-import com.epam.training.ticketservice.dataaccess.repository.JpaMovieRepository;
 import com.epam.training.ticketservice.dataaccess.repository.JpaRoomRepository;
-import com.epam.training.ticketservice.domain.Movie;
 import com.epam.training.ticketservice.domain.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,11 +25,7 @@ public class RoomDaoImpl implements RoomDao {
         RoomProjection roomProjection;
 
         roomProjection = new RoomProjection(room.getName(), room.getRowNumber(), room.getColNumber());
-        try {
-            jpaRoomRepository.save(roomProjection);
-        }
-        catch(Exception e){
-        }
+        jpaRoomRepository.save(roomProjection);
     }
 
     @Override
@@ -40,11 +33,7 @@ public class RoomDaoImpl implements RoomDao {
         RoomProjection roomProjection;
 
         roomProjection = new RoomProjection(room.getName(), room.getRowNumber(), room.getColNumber());
-        try {
-            jpaRoomRepository.delete(roomProjection);
-        }
-        catch(Exception e){
-        }
+        jpaRoomRepository.delete(roomProjection);
     }
 
     @Override
@@ -52,11 +41,19 @@ public class RoomDaoImpl implements RoomDao {
         RoomProjection roomProjection;
 
         roomProjection = new RoomProjection(room.getName(), room.getRowNumber(), room.getColNumber());
-        try {
-            jpaRoomRepository.save(roomProjection);
+        jpaRoomRepository.save(roomProjection);
+    }
+
+    @Override
+    public Room getRoomByName(String name) {
+        List<RoomProjection> rooms = jpaRoomRepository.findAll();
+        Room room = null;
+        for (RoomProjection roomProjection : rooms) {
+            if (roomProjection.getName().equals(name)) {
+                room = new Room(roomProjection.getName(), roomProjection.getRowNumber(),roomProjection.getColNumber());
+            }
         }
-        catch(Exception e){
-        }
+        return room;
     }
 
     public List<Room> listRooms() {
@@ -66,8 +63,9 @@ public class RoomDaoImpl implements RoomDao {
 
         roomProjectionList = jpaRoomRepository.findAll();
 
-        for(RoomProjection roomProjection : roomProjectionList) {
-            roomList.add(new Room(roomProjection.getName(), roomProjection.getRowNumber(), roomProjection.getColNumber()));
+        for (RoomProjection roomProjection : roomProjectionList) {
+            roomList.add(new Room(roomProjection.getName(), roomProjection.getRowNumber(),
+                    roomProjection.getColNumber()));
         }
 
         return roomList;

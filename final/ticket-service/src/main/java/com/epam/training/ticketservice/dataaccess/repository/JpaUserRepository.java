@@ -12,6 +12,7 @@ import java.util.UUID;
 
 public interface JpaUserRepository extends JpaRepository<UserProjection, UUID>  {
     List<UserProjection> findAll();
+
     UserProjection save(UserProjection userProjection);
 
 }

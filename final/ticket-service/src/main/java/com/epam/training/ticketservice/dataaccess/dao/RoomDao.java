@@ -7,7 +7,12 @@ import java.util.List;
 
 public interface RoomDao {
     List<Room> listRooms();
+
     void createRoom(Room room);
+
     void deleteRoom(Room room);
+
     void updateRoom(Room room);
+
+    Room getRoomByName(String name);
 }

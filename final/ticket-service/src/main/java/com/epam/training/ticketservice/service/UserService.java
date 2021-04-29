@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
-    private User currentUser;
+    private static User currentUser;
 
     private UserDaoImpl userDao;
 
@@ -21,7 +21,7 @@ public class UserService {
 
     public void signIn(String username, String password) {
         User user = userDao.getUserByName(username);
-        if(user.getPassword().equals(password)) {
+        if (user.getPassword().equals(password)) {
             currentUser = user;
         }
     }
@@ -32,5 +32,13 @@ public class UserService {
 
     public User describeAccount() {
         return currentUser;
+    }
+
+    public boolean idUserSignedIn() {
+        if (currentUser == null) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

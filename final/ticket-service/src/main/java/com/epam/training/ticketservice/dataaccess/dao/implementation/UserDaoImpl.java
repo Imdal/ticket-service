@@ -26,11 +26,7 @@ public class UserDaoImpl implements UserDao {
         UserProjection userProjection;
 
         userProjection = new UserProjection(user.getUsername(), user.getPassword(), user.getAccountType());
-        try {
-            jpaUserRepository.save(userProjection);
-        }
-        catch(Exception e){
-        }
+        jpaUserRepository.save(userProjection);
 
     }
 
@@ -38,9 +34,10 @@ public class UserDaoImpl implements UserDao {
     public User getUserByName(String name) {
         List<UserProjection> users = jpaUserRepository.findAll();
         User user = null;
-        for(UserProjection userProjection : users) {
-            if(userProjection.getUsername().equals(name)) {
-                user = new User(userProjection.getUsername(), userProjection.getPassword(),userProjection.getAccountType());
+        for (UserProjection userProjection : users) {
+            if (userProjection.getUsername().equals(name)) {
+                user = new User(userProjection.getUsername(), userProjection.getPassword(),
+                        userProjection.getAccountType());
             }
         }
         return user;

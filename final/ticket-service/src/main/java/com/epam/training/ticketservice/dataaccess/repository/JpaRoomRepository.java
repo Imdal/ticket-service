@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface JpaRoomRepository extends JpaRepository<RoomProjection, String> {
     List<RoomProjection> findAll();
+
     RoomProjection save(RoomProjection roomProjection);
+
     void delete(RoomProjection roomProjection);
 }

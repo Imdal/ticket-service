@@ -33,4 +33,8 @@ public class RoomService {
     public List<Room> listRooms() {
         return roomDao.listRooms();
     }
+
+    public Room getRoomByName(String name) {
+        return roomDao.getRoomByName(name);
+    }
 }

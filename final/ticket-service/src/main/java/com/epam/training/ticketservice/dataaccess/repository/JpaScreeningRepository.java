@@ -8,7 +8,9 @@ import java.util.UUID;
 
 public interface JpaScreeningRepository extends JpaRepository<ScreeningProjection, UUID> {
     List<ScreeningProjection> findAll();
+
     ScreeningProjection save(ScreeningProjection screeningProjection);
+
     void delete(ScreeningProjection screeningProjection);
 
 }

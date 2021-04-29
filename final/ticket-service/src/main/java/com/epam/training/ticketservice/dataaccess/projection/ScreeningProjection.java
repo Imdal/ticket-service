@@ -20,7 +20,8 @@ public class ScreeningProjection {
 
     }
 
-    public ScreeningProjection(String movieTitle, String roomName, java.sql.Date screeningDate, java.sql.Time screeningTime) {
+    public ScreeningProjection(String movieTitle, String roomName, java.sql.Date screeningDate,
+                               java.sql.Time screeningTime) {
         this.movieTitle = movieTitle;
         this.roomName = roomName;
         this.screeningDate = screeningDate;

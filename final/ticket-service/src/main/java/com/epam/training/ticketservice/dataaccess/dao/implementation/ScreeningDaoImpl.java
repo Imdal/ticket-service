@@ -24,24 +24,18 @@ public class ScreeningDaoImpl implements ScreeningDao {
     public void createScreening(Screening screening) {
         ScreeningProjection screeningProjection;
 
-        screeningProjection = new ScreeningProjection(screening.getMovieTitle(), screening.getRoomName(), screening.getScreeningDate(), screening.getScreeningTime());
-        try {
-            jpaScreeningRepository.save(screeningProjection);
-        }
-        catch(Exception e){
-        }
+        screeningProjection = new ScreeningProjection(screening.getMovieTitle(), screening.getRoomName(),
+                screening.getScreeningDate(), screening.getScreeningTime());
+        jpaScreeningRepository.save(screeningProjection);
     }
 
     @Override
     public void deleteScreening(Screening screening) {
         ScreeningProjection screeningProjection;
 
-        screeningProjection = new ScreeningProjection(screening.getMovieTitle(), screening.getRoomName(), screening.getScreeningDate(), screening.getScreeningTime());
-        try {
-            jpaScreeningRepository.delete(screeningProjection);
-        }
-        catch(Exception e){
-        }
+        screeningProjection = new ScreeningProjection(screening.getMovieTitle(), screening.getRoomName(),
+                screening.getScreeningDate(), screening.getScreeningTime());
+        jpaScreeningRepository.delete(screeningProjection);
     }
 
     public List<Screening> listScreening() {
@@ -51,8 +45,9 @@ public class ScreeningDaoImpl implements ScreeningDao {
 
         screeningProjectionList = jpaScreeningRepository.findAll();
 
-        for(ScreeningProjection screening : screeningProjectionList) {
-            screeningList.add(new Screening(screening.getMovieTitle(), screening.getRoomName(), screening.getScreeningDate(), screening.getScreeningTime()));
+        for (ScreeningProjection screening : screeningProjectionList) {
+            screeningList.add(new Screening(screening.getMovieTitle(), screening.getRoomName(),
+                    screening.getScreeningDate(), screening.getScreeningTime()));
         }
 
         return screeningList;

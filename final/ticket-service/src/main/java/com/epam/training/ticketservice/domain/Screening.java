@@ -30,12 +30,4 @@ public class Screening {
     }
 
 
-    public String toString() {
-//        return movieTitle + "(" + , <vetítés ideje percben> minutes), screened in room <terem neve>, at <vetítés kezdetének dátuma és ideje, YYYY-MM-DD hh:mm formátumban>
-//        return "Room " + name + " with " + rowNumber*colNumber + " seats, " + rowNumber + " rows and " + colNumber + " columns";
-        //TODO
-        return "valami";
-    }
-
-
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface JpaMovieRepository extends JpaRepository<MovieProjection, String> {
     List<MovieProjection> findAll();
+
     MovieProjection save(MovieProjection movieProjection);
+
     void delete(MovieProjection movieProjection);
 }

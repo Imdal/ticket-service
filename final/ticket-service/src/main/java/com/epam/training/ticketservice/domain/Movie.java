@@ -22,8 +22,4 @@ public class Movie {
     public int getLength() {
         return length;
     }
-
-    public String toString() {
-        return title + "(" + genre + ", " + length + " minutes)";
-    }
 }

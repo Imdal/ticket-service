@@ -1,9 +1,11 @@
 package com.epam.training.ticketservice.dataaccess.dao.implementation;
 
+import com.epam.training.ticketservice.dataaccess.projection.RoomProjection;
 import com.epam.training.ticketservice.dataaccess.repository.JpaMovieRepository;
 import com.epam.training.ticketservice.dataaccess.dao.MovieDao;
 import com.epam.training.ticketservice.dataaccess.projection.MovieProjection;
 import com.epam.training.ticketservice.domain.Movie;
+import com.epam.training.ticketservice.domain.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +28,8 @@ public class MovieDaoImpl implements MovieDao {
         MovieProjection movieProjection;
 
         movieProjection = new MovieProjection(movie.getTitle(), movie.getGenre(), movie.getLength());
-        try {
-            jpaMovieRepository.save(movieProjection);
-        }
-        catch(Exception e){
-        }
+        jpaMovieRepository.save(movieProjection);
+
     }
 
     @Override
@@ -38,35 +37,39 @@ public class MovieDaoImpl implements MovieDao {
         MovieProjection movieProjection;
 
         movieProjection = new MovieProjection(movie.getTitle(), movie.getGenre(), movie.getLength());
-        try {
-            jpaMovieRepository.delete(movieProjection);
-        }
-        catch(Exception e){
-        }
+        jpaMovieRepository.delete(movieProjection);
+
     }
 
     @Override
-
     public void updateMovie(Movie movie) {
         MovieProjection movieProjection;
 
         movieProjection = new MovieProjection(movie.getTitle(), movie.getGenre(), movie.getLength());
-        try {
-            jpaMovieRepository.save(movieProjection);
+        jpaMovieRepository.save(movieProjection);
+    }
+
+    @Override
+    public Movie getMovieByTitle(String title) {
+        List<MovieProjection> movies = jpaMovieRepository.findAll();
+        Movie movie = null;
+        for (MovieProjection movieProjection : movies) {
+            if (movieProjection.getTitle().equals(title)) {
+                movie = new Movie(movieProjection.getTitle(), movieProjection.getGenre(), movieProjection.getLength());
+            }
         }
-        catch(Exception e){
-        }
+        return movie;
     }
 
     public List<Movie> listMovies() {
         List<MovieProjection> movieProjectionList;
-        List<Movie> movieList = new ArrayList<>() {
-        };
+        List<Movie> movieList = new ArrayList<>();
 
         movieProjectionList = jpaMovieRepository.findAll();
 
-        for(MovieProjection movieProjection : movieProjectionList) {
-            movieList.add(new Movie(movieProjection.getTitle(), movieProjection.getGenre(), movieProjection.getLength()));
+        for (MovieProjection movieProjection : movieProjectionList) {
+            movieList.add(new Movie(movieProjection.getTitle(), movieProjection.getGenre(),
+                    movieProjection.getLength()));
         }
 
         return movieList;

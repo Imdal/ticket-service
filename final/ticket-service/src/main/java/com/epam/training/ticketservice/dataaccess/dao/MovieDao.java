@@ -9,9 +9,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface MovieDao{
+public interface MovieDao {
     List<Movie> listMovies();
+
     void createMovie(Movie movie);
+
     void deleteMovie(Movie movie);
+
     void updateMovie(Movie movie);
+
+    Movie getMovieByTitle(String title);
 }

@@ -2,6 +2,7 @@ package com.epam.training.ticketservice.service;
 
 import com.epam.training.ticketservice.dataaccess.dao.implementation.MovieDaoImpl;
 import com.epam.training.ticketservice.domain.Movie;
+import com.epam.training.ticketservice.domain.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +32,9 @@ public class MovieService {
 
     public List<Movie> listMovies() {
         return movieDao.listMovies();
+    }
+
+    public Movie getMovieByTitle(String title) {
+        return movieDao.getMovieByTitle(title);
     }
 }

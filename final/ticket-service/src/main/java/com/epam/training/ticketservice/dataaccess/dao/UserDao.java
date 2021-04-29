@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface UserDao{
+public interface UserDao {
     void createUser(User user);
+
     User getUserByName(String name);
 }
