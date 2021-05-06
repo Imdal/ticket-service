@@ -45,10 +45,12 @@ public class MovieCommandHandler {
         List<Movie> movieList = movieService.listMovies();
         String result = "";
         if (movieList.isEmpty()) {
-             result = "There are no movies at the moment";
+            result = "There are no movies at the moment";
         } else {
-            for (Movie movie: movieList) { result +=  toStringMovie(movie) + "\n"; }
-            result = result.substring(0,result.length()-1);
+            for (Movie movie: movieList) {
+                result +=  toStringMovie(movie) + "\n";
+            }
+            result = result.substring(0, result.length() - 1);
         }
         return result;
     }

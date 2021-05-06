@@ -18,7 +18,9 @@ public class UserProjection {
         this.accountType = accountType;
     }
 
-    public  UserProjection() { }
+    public  UserProjection() {
+
+    }
 
     public String getUsername() {
         return username;

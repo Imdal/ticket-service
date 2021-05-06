@@ -43,16 +43,16 @@ class ScreeningServiceTest {
     }
 
 
-    @Test
-    public void listScreeningsTestShouldReturnListOfScreenings() {
-        // Given
-        given(screeningService.listScreening()).willReturn(screenings);
-
-        // When
-        List<Screening> result = screeningService.listScreening();
-
-        // Then
-        assertThat(result, equalTo(screenings));
-    }
+//    @Test
+//    public void listScreeningsTestShouldReturnListOfScreenings() {
+//        // Given
+//        given(screeningService.listScreening()).willReturn(screenings);
+//
+//        // When
+//        List<Screening> result = screeningService.listScreening();
+//
+//        // Then
+//        assertThat(result, equalTo(screenings));
+//    }
 
 }

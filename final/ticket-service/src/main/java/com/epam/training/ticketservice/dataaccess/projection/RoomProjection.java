@@ -1,13 +1,19 @@
 package com.epam.training.ticketservice.dataaccess.projection;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+
 @Entity
 public class RoomProjection {
+
     @Id
     private String name;
     private int rowNumber;
     private int colNumber;
-    protected RoomProjection() { }
+
+    protected RoomProjection() {
+
+    }
     
     public RoomProjection(String name, int rowNumber, int colNumber) {
         this.name = name;

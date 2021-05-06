@@ -1,4 +1,5 @@
 package com.epam.training.ticketservice.dataaccess.dao.implementation;
+
 import com.epam.training.ticketservice.dataaccess.repository.JpaMovieRepository;
 import com.epam.training.ticketservice.dataaccess.dao.MovieDao;
 import com.epam.training.ticketservice.dataaccess.projection.MovieProjection;
@@ -46,7 +47,8 @@ public class MovieDaoImpl implements MovieDao {
         for (MovieProjection movieProjection : movies) {
             if (movieProjection.getTitle().equals(title)) {
                 movie = new Movie(movieProjection.getTitle(), movieProjection.getGenre(), movieProjection.getLength());
-            }}
+            }
+        }
         return movie;
     }
 

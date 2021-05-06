@@ -20,13 +20,21 @@ public class UserCommandHandler {
     }
 
     @ShellMethod(value = "Sign in", key = "sign in")
-    public void signIn(String username, String password) {
-        userService.signIn(username, password);
+    public String signIn(String username, String password) {
+        String result = "";
+        if (!userService.signIn(username, password)) {
+            result = "Login failed due to incorrect credentials";
+        }
+        return result;
     }
 
     @ShellMethod(value = "Sign in privileged", key = "sign in privileged")
-    public void signInPrivileged(String username, String password) {
-        userService.signIn(username, password);
+    public String signInPrivileged(String username, String password) {
+        String result = "";
+        if (!userService.signIn(username, password)) {
+            result = "Login failed due to incorrect credentials";
+        }
+        return result;
     }
 
     @ShellMethod(value = "Sign out", key = "sign out")

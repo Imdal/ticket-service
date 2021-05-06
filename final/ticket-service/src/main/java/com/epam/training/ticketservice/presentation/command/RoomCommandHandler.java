@@ -47,9 +47,9 @@ public class RoomCommandHandler {
             result = "There are no rooms at the moment";
         } else {
             for (Room room: roomList) {
-                result += toStringRoom(room) +"\n";
+                result += toStringRoom(room) + "\n";
             }
-            result = result.substring(0,result.length()-1);
+            result = result.substring(0, result.length() - 1);
         }
         return result;
     }

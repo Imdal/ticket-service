@@ -19,10 +19,13 @@ public class UserService {
         userDao.createUser(new User(username, password, "user"));
     }
 
-    public void signIn(String username, String password) {
+    public boolean signIn(String username, String password) {
         User user = userDao.getUserByName(username);
         if (user.getPassword().equals(password)) {
             currentUser = user;
+            return true;
+        } else {
+            return false;
         }
     }
 

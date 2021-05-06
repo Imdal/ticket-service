@@ -19,13 +19,16 @@ public class MovieService {
     }
 
     public void createMovie(String title, String genre, int length) {
-        movieDao.createMovie(new Movie(title, genre, length)); }
+        movieDao.createMovie(new Movie(title, genre, length));
+    }
 
     public void updateMovie(String title, String genre, int length) {
-        movieDao.updateMovie(new Movie(title, genre, length)); }
+        movieDao.updateMovie(new Movie(title, genre, length));
+    }
 
     public void deleteMovie(String title) {
-        movieDao.deleteMovie(getMovieByTitle(title)); }
+        movieDao.deleteMovie(getMovieByTitle(title));
+    }
 
     public List<Movie> listMovies() {
         return movieDao.listMovies();

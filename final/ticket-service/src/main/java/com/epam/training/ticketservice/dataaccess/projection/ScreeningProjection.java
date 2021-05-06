@@ -3,6 +3,7 @@ package com.epam.training.ticketservice.dataaccess.projection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -13,17 +14,16 @@ public class ScreeningProjection {
 
     private String movieTitle;
     private String roomName;
-    private java.sql.Date screeningDate;
-    private java.sql.Time screeningTime;
+    private LocalDateTime screeningDate;
 
-    protected ScreeningProjection() { }
+    protected ScreeningProjection() {
 
-    public ScreeningProjection(String movieTitle, String roomName, java.sql.Date screeningDate,
-                               java.sql.Time screeningTime) {
+    }
+
+    public ScreeningProjection(String movieTitle, String roomName, LocalDateTime screeningDate) {
         this.movieTitle = movieTitle;
         this.roomName = roomName;
         this.screeningDate = screeningDate;
-        this.screeningTime = screeningTime;
     }
 
     public String getMovieTitle() {
@@ -34,11 +34,7 @@ public class ScreeningProjection {
         return roomName;
     }
 
-    public java.sql.Date getScreeningDate() {
+    public LocalDateTime getScreeningDate() {
         return screeningDate;
-    }
-
-    public java.sql.Time getScreeningTime() {
-        return screeningTime;
     }
 }

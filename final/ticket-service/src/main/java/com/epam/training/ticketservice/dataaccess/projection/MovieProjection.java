@@ -1,6 +1,5 @@
 package com.epam.training.ticketservice.dataaccess.projection;
 
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -12,7 +11,9 @@ public class MovieProjection {
     private String genre;
     private int length;
 
-    protected MovieProjection() { }
+    protected MovieProjection() {
+
+    }
 
     public MovieProjection(String title, String genre, int length) {
         this.title = title;
