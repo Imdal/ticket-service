@@ -20,17 +20,21 @@ import static org.mockito.BDDMockito.given;
 
 class UserServiceTest {
 
-    private String username = "username";
-    private String password = "password";
-    private String accountType = "accountType";
+    private String username = "admin";
+    private String password = "admin";
+    private String accountType = "admin";
 
     @Mock
-    private User user;
+    private User userMock;
+    private User user = new User(username, password, accountType);
+
 
     @Mock
+    private UserService userServiceMock;
     private UserService userService;
 
     @Mock
+    private UserDaoImpl userDaoMock;
     private UserDaoImpl userDao;
 
     @Mock
@@ -41,15 +45,13 @@ class UserServiceTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         userDao = new UserDaoImpl(jpaUserRepository);
+        userService = new UserService(userDaoMock);
     }
 
 
 
     @Test
     public void isUserSignedInShouldReturnFalse() {
-        // Given
-        given(userService.isUserSignedIn()).willReturn(false);
-
         // When
         boolean result = userService.isUserSignedIn();
 
@@ -57,66 +59,32 @@ class UserServiceTest {
         assertThat(result, equalTo(false));
     }
 
-    @Test
-    public void isUserSignedInShouldReturnTrue() {
-        // Given
-        given(userService.isUserSignedIn()).willReturn(true);
+//    @Test
+//    public void isUserSignedInShouldReturnTrue() {
+//        // Given
+//        userServiceMock.signIn(username, password);
+//
+//        // When
+//        boolean result = userService.isUserSignedIn();
+//
+//        // Then
+//        assertThat(result, equalTo(true));
+//    }
+//
+//    @Test
+//    public void describeAccountShouldReturnUser() {
+//        // Given
+//        userServiceMock.signIn(username, password);
+//        given(userService.describeAccount()).willReturn(user);
+//
+//        // When
+//        userService.signIn(username, password);
+//        User result = userService.describeAccount();
+//
+//        // Then
+//        assertThat(result, equalTo(user));
+//    }
 
-        // When
-        userService.signIn(user.getUsername(), user.getPassword());
-        boolean result = userService.isUserSignedIn();
 
-        // Then
-        assertThat(result, equalTo(true));
-    }
-
-    @Test
-    public void describeAccountShouldReturnUser() {
-        // Given
-        given(userService.describeAccount()).willReturn(user);
-
-        // When
-        userService.signIn(user.getUsername(), user.getPassword());
-        User result = userService.describeAccount();
-
-        // Then
-        assertThat(result, equalTo(user));
-    }
-
-    @Test
-    public void getUsernameShouldReturnTheUsername() {
-        //Given
-        User testUser = new User(username, password, accountType);
-
-        //When
-        String result = testUser.getUsername();
-
-        // Then
-        assertThat(result, equalTo(username));
-    }
-
-    @Test
-    public void getPasswordShouldReturnThePassword() {
-        //Given
-        User testUser = new User(username, password, accountType);
-
-        //When
-        String result = testUser.getPassword();
-
-        // Then
-        assertThat(result, equalTo(password));
-    }
-
-    @Test
-    public void getAccountTypeShouldReturnTheAccountType() {
-        //Given
-        User testUser = new User(username, password, accountType);
-
-        //When
-        String result = testUser.getAccountType();
-
-        // Then
-        assertThat(result, equalTo(accountType));
-    }
 
 }
