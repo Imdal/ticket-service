@@ -6,6 +6,7 @@ import com.epam.training.ticketservice.dataaccess.repository.JpaMovieRepository;
 import com.epam.training.ticketservice.domain.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -14,56 +15,110 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 class MovieServiceTest {
 
+    private final String title = "title";
+    private final String genre = "genre";
+    private final int length = 123;
+
     @Mock
+    private MovieService movieServiceMock;
     private MovieService movieService;
 
     @Mock
+    private UserService userService;
+
+    @Mock
+    private MovieDaoImpl movieDaoMock;
     private MovieDaoImpl movieDao;
 
     @Mock
-    private JpaMovieRepository jpaMovieRepository;
+    private JpaMovieRepository jpaMovieRepositoryMock;
 
     @Mock
-    private Movie movie;
+    private Movie movieMock;
+    private final Movie movie = new Movie(title, genre, length);
 
     @Mock
-    private List<Movie> movies;
-
-    private String title;
-
+    private List<Movie> moviesMock;
 
     @BeforeEach
     public void setup() {
+//        userService.signIn("admin", "admin");
         MockitoAnnotations.openMocks(this);
-        movieDao = new MovieDaoImpl(jpaMovieRepository);
-        movieDao.createMovie(movie);
-        title=movie.getTitle();
+        movieDao = new MovieDaoImpl(jpaMovieRepositoryMock);
+        movieService =  new MovieService(movieDao);
     }
 
-    @Test
-    public void getMovieByTitleShouldReturnMovieWithTheGivenTitle() {
-        // Given
-        given(movieService.getMovieByTitle(title)).willReturn(movie);
+//    @Test
+//    public void test() {
+//        userService.signIn("admin", "admin");
+//        movieService.createMovie(title, genre, length);
+//        movieService.updateMovie(title, genre, length);
+//        movieService.deleteMovie(title);
+//    }
 
-        // When
-        Movie result = movieService.getMovieByTitle(title);
-
-        // Then
-        assertThat(result, equalTo(movie));
-    }
+//    @Test
+//    public void testCreateMovie() {
+//        movieService.createMovie(title, genre, length);
+//
+//        //Then
+//        verify(movieDao, times(1)).createMovie(movie);
+//    }
+//
+//    @Test
+//    public void getMovieByTitleShouldReturnMovieWithTheGivenTitle() {
+//        // Given
+//        movieDao.createMovie(movie);
+//        given(movieService.getMovieByTitle(movie.getTitle())).willReturn(movie);
+//
+//        // When
+//        Movie result = movieService.getMovieByTitle(movie.getTitle());
+//
+//        // Then
+//        assertThat(result.getTitle(), equalTo(movie.getTitle()));
+//    }
 
     @Test
     public void listMoviesTestShouldReturnListOfMovies() {
         // Given
-        given(movieService.listMovies()).willReturn(movies);
+        movieDaoMock.createMovie(movieMock);
+        given(movieServiceMock.listMovies()).willReturn(moviesMock);
 
         // When
-        List<Movie> result = movieService.listMovies();
+        List<Movie> result = movieServiceMock.listMovies();
 
         // Then
-        assertThat(result, equalTo(movies));
+        assertThat(result, equalTo(moviesMock));
+    }
+
+    @Test
+    public void getTitleShouldReturnTheTitle() {
+        //When
+        String result = movie.getTitle();
+
+        // Then
+        assertThat(result, equalTo(title));
+    }
+
+    @Test
+    public void getGenreShouldReturnTheGenre() {
+        //When
+        String result = movie.getGenre();
+
+        // Then
+        assertThat(result, equalTo(genre));
+    }
+
+    @Test
+    public void getLengthShouldReturnTheLength() {
+        //When
+        int result = movie.getLength();
+
+        // Then
+        assertThat(result, equalTo(length));
     }
 }

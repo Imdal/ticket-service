@@ -35,17 +35,18 @@ public class UserCommandHandler {
     }
 
     @ShellMethod(value = "Describe account", key = "describe account")
-    public void describeAccount() {
+    public String describeAccount() {
         User user = userService.describeAccount();
+        String result = "";
 
         if (!userService.isUserSignedIn()) {
-            System.out.println("You are not signed in");
+            result = "You are not signed in";
         } else if (user.getAccountType().equals("admin")) {
-            System.out.println("Signed in with privileged account '" + user.getUsername() + "'");
+            result = "Signed in with privileged account '" + user.getUsername() + "'";
         } else {
-            System.out.println("Signed in with account '" + user.getUsername() + "'");
+            result = "Signed in with account '" + user.getUsername() + "'";
         }
-
+        return result;
     }
 
 }

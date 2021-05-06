@@ -20,6 +20,10 @@ import static org.mockito.BDDMockito.given;
 
 class UserServiceTest {
 
+    private String username = "username";
+    private String password = "password";
+    private String accountType = "accountType";
+
     @Mock
     private User user;
 
@@ -38,6 +42,8 @@ class UserServiceTest {
         MockitoAnnotations.openMocks(this);
         userDao = new UserDaoImpl(jpaUserRepository);
     }
+
+
 
     @Test
     public void isUserSignedInShouldReturnFalse() {
@@ -75,6 +81,42 @@ class UserServiceTest {
 
         // Then
         assertThat(result, equalTo(user));
+    }
+
+    @Test
+    public void getUsernameShouldReturnTheUsername() {
+        //Given
+        User testUser = new User(username, password, accountType);
+
+        //When
+        String result = testUser.getUsername();
+
+        // Then
+        assertThat(result, equalTo(username));
+    }
+
+    @Test
+    public void getPasswordShouldReturnThePassword() {
+        //Given
+        User testUser = new User(username, password, accountType);
+
+        //When
+        String result = testUser.getPassword();
+
+        // Then
+        assertThat(result, equalTo(password));
+    }
+
+    @Test
+    public void getAccountTypeShouldReturnTheAccountType() {
+        //Given
+        User testUser = new User(username, password, accountType);
+
+        //When
+        String result = testUser.getAccountType();
+
+        // Then
+        assertThat(result, equalTo(accountType));
     }
 
 }

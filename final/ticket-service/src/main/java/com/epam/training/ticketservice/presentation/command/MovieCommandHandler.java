@@ -34,26 +34,27 @@ public class MovieCommandHandler {
     }
 
     @ShellMethod(value = "Delete movie", key = "delete movie")
-    public void deleteMovie(String title, String genre, int length) {
+    public void deleteMovie(String title) {
         if (userService.isUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
-            movieService.deleteMovie(title, genre, length);
+            movieService.deleteMovie(title);
         }
     }
 
     @ShellMethod(value = "List movies", key = "list movies")
-    public void listMovies() {
+    public String listMovies() {
         List<Movie> movieList = movieService.listMovies();
+        String result = "";
         if (movieList.isEmpty()) {
-            System.out.println("There are no movies at the moment");
+             result = "There are no movies at the moment";
         } else {
-            for (Movie movie: movieList) {
-                System.out.println(toStringMovie(movie));
-            }
+            for (Movie movie: movieList) { result +=  toStringMovie(movie) + "\n"; }
+            result = result.substring(0,result.length()-1);
         }
+        return result;
     }
 
     public String toStringMovie(Movie movie) {
-        return movie.getTitle() + "(" + movie.getGenre() + ", " + movie.getLength() + " minutes)";
+        return movie.getTitle() + " (" + movie.getGenre() + ", " + movie.getLength() + " minutes)";
     }
 
 }

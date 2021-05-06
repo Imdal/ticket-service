@@ -1,4 +1,4 @@
-00Feature: allows users to book tickets for screenings, and show booking history
+Feature: allows users to book tickets for screenings, and show booking history
 
   Background:
     Given the application is started

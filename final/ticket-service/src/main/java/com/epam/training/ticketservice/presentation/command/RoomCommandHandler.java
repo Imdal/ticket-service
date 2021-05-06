@@ -33,22 +33,25 @@ public class RoomCommandHandler {
     }
 
     @ShellMethod(value = "Delete room", key = "delete room")
-    public void deleteRoom(String name, int rowNumber, int colNumber) {
+    public void deleteRoom(String name) {
         if (userService.isUserSignedIn() && userService.describeAccount().getAccountType().equals("admin")) {
-            roomService.deleteRoom(name, rowNumber, colNumber);
+            roomService.deleteRoom(name);
         }
     }
 
     @ShellMethod(value = "List rooms", key = "list rooms")
-    public void listRooms() {
+    public String listRooms() {
         List<Room> roomList = roomService.listRooms();
+        String result = "";
         if (roomList.isEmpty()) {
-            System.out.println("There are no rooms at the moment");
+            result = "There are no rooms at the moment";
         } else {
             for (Room room: roomList) {
-                System.out.println(toStringRoom(room));
+                result += toStringRoom(room) +"\n";
             }
+            result = result.substring(0,result.length()-1);
         }
+        return result;
     }
 
     public String toStringRoom(Room room) {

@@ -43,23 +43,27 @@ public class ScreeningCommandHandler {
     }
 
     @ShellMethod(value = "List screenings", key = "list screenings")
-    public void listScreenings() {
+    public String listScreenings() {
         List<Screening> screeningList = screeningService.listScreening();
+        String result = "";
         if (screeningList.isEmpty()) {
-            System.out.println("There are no screenings");
+            result = "There are no screenings";
         } else {
             for (Screening screening : screeningList) {
-                System.out.println(toStringScreening(screening));
+                result += toStringScreening(screening) + "\n";
             }
+            result = result.substring(0,result.length()-1);
         }
+        return result;
     }
 
     private String toStringScreening(Screening screening) {
         Movie movie = movieService.getMovieByTitle(screening.getMovieTitle());
-        return screening.getMovieTitle() + "(" + movie.getGenre() + ", " + movie.getLength()
+        return screening.getMovieTitle() + " (" + movie.getGenre() + ", " + movie.getLength()
                 + " minutes), screened in room " + screening.getRoomName() + ", at "
                 + screening.getScreeningDate().toString() + " "
                 + screening.getScreeningTime().toString().substring(0,5);
 
     }
+
 }

@@ -16,9 +16,7 @@ public class ScreeningProjection {
     private java.sql.Date screeningDate;
     private java.sql.Time screeningTime;
 
-    protected ScreeningProjection() {
-
-    }
+    protected ScreeningProjection() { }
 
     public ScreeningProjection(String movieTitle, String roomName, java.sql.Date screeningDate,
                                java.sql.Time screeningTime) {

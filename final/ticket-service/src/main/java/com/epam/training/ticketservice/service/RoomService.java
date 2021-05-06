@@ -26,8 +26,8 @@ public class RoomService {
         roomDao.updateRoom(new Room(name, rowNumber, colNumber));
     }
 
-    public void deleteRoom(String name, int rowNumber, int colNumber) {
-        roomDao.deleteRoom(new Room(name, rowNumber, colNumber));
+    public void deleteRoom(String name) {
+        roomDao.deleteRoom(getRoomByName(name));
     }
 
     public List<Room> listRooms() {

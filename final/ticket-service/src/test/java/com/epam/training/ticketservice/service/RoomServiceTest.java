@@ -44,7 +44,6 @@ class RoomServiceTest {
         roomDao = new RoomDaoImpl(jpaRoomRepository);
         roomDao.createRoom(room);
         name=room.getName();
-        name=room.getName();
     }
 
     @Test
