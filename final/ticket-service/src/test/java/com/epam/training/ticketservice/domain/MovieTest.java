@@ -1,5 +1,6 @@
 package com.epam.training.ticketservice.domain;
 
+import com.epam.training.ticketservice.dataaccess.projection.MovieProjection;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

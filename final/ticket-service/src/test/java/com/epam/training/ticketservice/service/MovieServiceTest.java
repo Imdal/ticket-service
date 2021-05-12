@@ -17,6 +17,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 class MovieServiceTest {
@@ -61,13 +62,13 @@ class MovieServiceTest {
     }
 
 //    @Test
-//    public void test() {
-//        userService.signIn("admin", "admin");
+//    public void testCreateMovie() {
 //        movieService.createMovie(title, genre, length);
-//        movieService.updateMovie(title, genre, length);
-//        movieService.deleteMovie(title);
+////        movieService.updateMovie(title, genre, length);
+////        movieService.deleteMovie(title);
+//        verify(movieDaoMock, times(1)).createMovie(movie);
 //    }
-
+//
 //
 //    @Test
 //    public void testUpdateMovie() {
@@ -78,15 +79,28 @@ class MovieServiceTest {
 //        //Then
 //        verify(movieServiceMock, times(1)).updateMovie(title, genre, length2);
 //    }
-//
+
+    @Test
+    public void testCreateMovie() {
+        List<Movie> expectedResult = new ArrayList<>();
+        expectedResult.add(movie);
+        given(movieService.listMovies()).willReturn(expectedResult);
+
+        movieService.createMovie(title, genre, length);
+        List<Movie> result = movieService.listMovies();
+
+        //Then
+        assertThat(result, equalTo(expectedResult));
+    }
+
 
     @Test
     public void testDeleteMovie() {
-        movieDaoMock.createMovie(movieMock);
+        movieService.createMovie(title, genre, length);
         List<Movie> expectedResult = new ArrayList<>();
         given(movieService.listMovies()).willReturn(expectedResult);
 
-        movieService.deleteMovie(movieMock.getTitle());
+        movieService.deleteMovie(title);
         List<Movie> result = movieService.listMovies();
         //Then
         assertThat(result, equalTo(expectedResult));

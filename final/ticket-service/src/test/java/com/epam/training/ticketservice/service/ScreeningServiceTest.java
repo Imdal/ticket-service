@@ -4,6 +4,7 @@ import com.epam.training.ticketservice.dataaccess.dao.implementation.MovieDaoImp
 import com.epam.training.ticketservice.dataaccess.dao.implementation.RoomDaoImpl;
 import com.epam.training.ticketservice.dataaccess.dao.implementation.ScreeningDaoImpl;
 import com.epam.training.ticketservice.dataaccess.projection.MovieProjection;
+import com.epam.training.ticketservice.dataaccess.projection.ScreeningProjection;
 import com.epam.training.ticketservice.dataaccess.repository.JpaMovieRepository;
 import com.epam.training.ticketservice.dataaccess.repository.JpaScreeningRepository;
 import com.epam.training.ticketservice.domain.Movie;
@@ -45,6 +46,7 @@ class ScreeningServiceTest {
     private final Screening screening2 = new Screening(title, name, localDateTime2);
     private final Screening screening3 = new Screening(title, name, localDateTime3);
     private final Screening screening4 = new Screening(title, name, localDateTime4);
+    private ScreeningProjection screeningProjection = new ScreeningProjection(title, name, localDateTime1);
 
     @Mock
     private ScreeningService screeningServiceMock;
@@ -179,7 +181,7 @@ class ScreeningServiceTest {
     @Test
     public void listScreeningsTestShouldReturnListOfScreenings() {
         // Given
-        given(screeningService.listScreening()).willReturn(screenings);
+        given(screeningDaoMock.listScreening()).willReturn(screenings);
 
         // When
         List<Screening> result = screeningService.listScreening();
@@ -187,5 +189,42 @@ class ScreeningServiceTest {
         // Then
         assertThat(result, equalTo(screenings));
     }
+
+    @Test
+    public void stringOfScreeningsTestShouldReturnStringIfThereIsNoScreenings() {
+        List<ScreeningProjection> screeningProjectionList = new ArrayList<>();
+        given(jpaScreeningRepository.findAll()).willReturn(screeningProjectionList);
+        String result = screeningService.stringOfScreenings();
+
+        assertThat(result, equalTo("There are no screenings"));
+    }
+
+    @Test
+    public void stringOfScreeningsTestShouldReturnOneLineOfStringIfThereIsOnlyOneScreening() {
+        List<Screening> screeningList = new ArrayList<>();
+        screeningList.add(screening1);
+        List<MovieProjection> movieProjectionList = new ArrayList<>();
+        movieProjectionList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieProjectionList);
+        given(screeningDaoMock.listScreening()).willReturn(screeningList);
+        String result = screeningService.stringOfScreenings();
+
+        assertThat(result, equalTo("title (genre, 10 minutes), screened in room egyes, at 2020-12-20 15:30"));
+    }
+
+    @Test
+    public void stringOfScreeningsTestShouldReturnMoreLineOfStringIfThereIsMoreThanOneScreening() {
+        List<Screening> screeningList = new ArrayList<>();
+        screeningList.add(screening1);
+        screeningList.add(screening4);
+        List<MovieProjection> movieProjectionList = new ArrayList<>();
+        movieProjectionList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieProjectionList);
+        given(screeningDaoMock.listScreening()).willReturn(screeningList);
+        String result = screeningService.stringOfScreenings();
+
+        assertThat(result, equalTo("title (genre, 10 minutes), screened in room egyes, at 2020-12-20 15:30\ntitle (genre, 10 minutes), screened in room egyes, at 2020-12-20 15:52"));
+    }
+
 
 }

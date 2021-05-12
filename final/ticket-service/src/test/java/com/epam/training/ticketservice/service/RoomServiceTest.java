@@ -54,6 +54,19 @@ class RoomServiceTest {
     }
 
     @Test
+    public void testCreateMovie() {
+        List<Room> expectedResult = new ArrayList<>();
+        expectedResult.add(room);
+        given(roomService.listRooms()).willReturn(expectedResult);
+
+        roomService.createRoom(name, rowNum, colNum);
+        List<Room> result = roomService.listRooms();
+
+        //Then
+        assertThat(result, equalTo(expectedResult));
+    }
+
+    @Test
     public void testDeleteRoom() {
         roomDaoMock.createRoom(roomMock);
         List<Room> expectedResult = new ArrayList<>();
