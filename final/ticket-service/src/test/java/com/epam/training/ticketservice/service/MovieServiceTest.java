@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -50,7 +51,9 @@ class MovieServiceTest {
 
     @Mock
     private Movie movieMock;
-    private final Movie movie = new Movie(title, genre, length);
+    private final Movie movie = new Movie(title, genre, length);;
+    private final Movie equalMovie = new Movie(title, genre, length);
+    private final Movie notEqualMovie = new Movie(title, genre, length2);
 
     @BeforeEach
     public void setup() {
@@ -61,24 +64,36 @@ class MovieServiceTest {
         movieService =  new MovieService(movieDaoMock);
     }
 
-//    @Test
-//    public void testCreateMovie() {
-//        movieService.createMovie(title, genre, length);
-////        movieService.updateMovie(title, genre, length);
-////        movieService.deleteMovie(title);
-//        verify(movieDaoMock, times(1)).createMovie(movie);
-//    }
-//
-//
-//    @Test
-//    public void testUpdateMovie() {
-//        userService.signIn("admin", "admin");
-//        movieServiceMock.createMovie(title, genre, length);
-//        movieServiceMock.updateMovie(title, genre, length2);
-//
-//        //Then
-//        verify(movieServiceMock, times(1)).updateMovie(title, genre, length2);
-//    }
+    @Test
+    public void overridedEqualShouldReturnTrue() {
+        boolean result = movie.equals(equalMovie);
+        assertThat(result, equalTo(true));
+    }
+
+    @Test
+    public void overridedEqualShouldReturnFalse() {
+        boolean result = movie.equals(notEqualMovie);
+        assertThat(result, equalTo(false));
+    }
+
+    @Test
+    public void testCreateMovieShouldCallMovieDaoCreateMovie() {
+        movieService.createMovie(title, genre, length);
+        verify(movieDaoMock, times(1)).createMovie(movie);
+    }
+
+    @Test
+    public void testUpdateMovieShouldCallMovieDaoUpdateMovie() {
+        movieService.updateMovie(title, genre, length);
+        verify(movieDaoMock, times(1)).updateMovie(movie);
+    }
+
+    @Test
+    public void testDeleteMovieShouldCallMovieDaoDeleteMovie() {
+        given(movieDaoMock.getMovieByTitle(title)).willReturn(movie);
+        movieService.deleteMovie(title);
+        verify(movieDaoMock, times(1)).deleteMovie(movie);
+    }
 
     @Test
     public void testCreateMovie() {

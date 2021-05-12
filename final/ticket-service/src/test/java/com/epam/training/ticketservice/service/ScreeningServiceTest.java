@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 class ScreeningServiceTest {
 
@@ -43,6 +44,7 @@ class ScreeningServiceTest {
     private final LocalDateTime localDateTime3 = LocalDateTime.parse("2020-12-20 15:42", format);
     private final LocalDateTime localDateTime4 = LocalDateTime.parse("2020-12-20 15:52", format);
     private final Screening screening1 = new Screening(title, name, localDateTime1);
+    private final Screening equalScreening = new Screening(title, name, localDateTime1);
     private final Screening screening2 = new Screening(title, name, localDateTime2);
     private final Screening screening3 = new Screening(title, name, localDateTime3);
     private final Screening screening4 = new Screening(title, name, localDateTime4);
@@ -91,6 +93,27 @@ class ScreeningServiceTest {
         movieDaoMock.createMovie(movie);
         roomDaoMock.createRoom(room);
         screeningDaoMock.createScreening(screening1);
+    }
+
+    @Test
+    public void overridedEqualShouldReturnTrue() {
+        boolean result = screening1.equals(equalScreening);
+        assertThat(result, equalTo(true));
+    }
+
+    @Test
+    public void overridedEqualShouldReturnFalse() {
+        boolean result = screening1.equals(screening2);
+        assertThat(result, equalTo(false));
+    }
+
+    @Test
+    public void testCreateScreening() {
+        //when
+        screeningService.createScreening(title, name, localDateTime1);
+
+        //Then
+        verify(screeningDaoMock, times(2)).createScreening(screening1);
     }
 
     @Test

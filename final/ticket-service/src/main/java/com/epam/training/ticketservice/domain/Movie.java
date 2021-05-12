@@ -22,4 +22,17 @@ public class Movie {
     public int getLength() {
         return length;
     }
+//
+//    @Override
+//    public int hashCode() {
+//        return 1;
+//    }
+
+    @Override
+    public boolean equals(Object o) {
+        Movie movie = (Movie) o;
+        return this.getTitle().equals(movie.getTitle()) &&
+                this.getGenre().equals(movie.getGenre()) &&
+                this.getLength() == movie.getLength();
+    }
 }

@@ -37,4 +37,17 @@ public class ScreeningProjection {
     public LocalDateTime getScreeningDate() {
         return screeningDate;
     }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        ScreeningProjection screeningProjection = (ScreeningProjection) o;
+        return this.getMovieTitle().equals(screeningProjection.getMovieTitle()) &&
+                this.getRoomName().equals(screeningProjection.getRoomName()) &&
+                this.getScreeningDate() == screeningProjection.getScreeningDate();
+    }
 }

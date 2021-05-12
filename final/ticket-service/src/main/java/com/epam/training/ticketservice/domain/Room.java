@@ -23,4 +23,16 @@ public class Room {
         return colNumber;
     }
 
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Room room = (Room) o;
+        return this.getName().equals(room.getName()) &&
+                this.getRowNumber() == room.getRowNumber() &&
+                this.getColNumber() == room.getColNumber();
+    }
 }

@@ -18,13 +18,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 class RoomServiceTest {
 
     private String name = "egyes";
     private int rowNum = 10;
+    private int rowNum2 = 12;
     private int colNum = 10;
     private final Room room = new Room(name, rowNum, colNum);
+    private final Room equalRoom = new Room(name, rowNum, colNum);
+    private final Room notEqualRoom = new Room(name, rowNum2, colNum);
 
     @Mock
     private RoomService roomServiceMock;
@@ -54,7 +59,25 @@ class RoomServiceTest {
     }
 
     @Test
-    public void testCreateMovie() {
+    public void overridedEqualShouldReturnTrue() {
+        boolean result = room.equals(equalRoom);
+        assertThat(result, equalTo(true));
+    }
+
+    @Test
+    public void overridedEqualShouldReturnFalse() {
+        boolean result = room.equals(notEqualRoom);
+        assertThat(result, equalTo(false));
+    }
+
+    @Test
+    public void testCreateRoomShouldCallRoomDaoCreateRoom() {
+        roomService.createRoom(name, rowNum, colNum);
+        verify(roomDaoMock, times(1)).createRoom(room);
+    }
+
+    @Test
+    public void testCreateRoom() {
         List<Room> expectedResult = new ArrayList<>();
         expectedResult.add(room);
         given(roomService.listRooms()).willReturn(expectedResult);

@@ -1,5 +1,7 @@
 package com.epam.training.ticketservice.domain;
 
+import com.epam.training.ticketservice.dataaccess.projection.ScreeningProjection;
+
 import java.time.LocalDateTime;
 
 public class Screening {
@@ -23,5 +25,18 @@ public class Screening {
 
     public LocalDateTime getScreeningDate() {
         return screeningDate;
+    }
+
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Screening screening = (Screening) o;
+        return this.getMovieTitle().equals(screening.getMovieTitle()) &&
+                this.getRoomName().equals(screening.getRoomName()) &&
+                this.getScreeningDate() == screening.getScreeningDate();
     }
 }
