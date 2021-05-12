@@ -102,7 +102,7 @@ public class ScreeningService {
     }
 
 
-    private String toStringScreening(Screening screening) {
+    public String toStringScreening(Screening screening) {
         Movie movie = movieDao.getMovieByTitle(screening.getMovieTitle());
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String formattedDate = screening.getScreeningDate().format(format);

@@ -3,6 +3,7 @@ package com.epam.training.ticketservice.service;
 import com.epam.training.ticketservice.dataaccess.dao.implementation.MovieDaoImpl;
 import com.epam.training.ticketservice.dataaccess.dao.implementation.RoomDaoImpl;
 import com.epam.training.ticketservice.dataaccess.dao.implementation.ScreeningDaoImpl;
+import com.epam.training.ticketservice.dataaccess.projection.MovieProjection;
 import com.epam.training.ticketservice.dataaccess.repository.JpaMovieRepository;
 import com.epam.training.ticketservice.dataaccess.repository.JpaScreeningRepository;
 import com.epam.training.ticketservice.domain.Movie;
@@ -15,11 +16,13 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 
 class ScreeningServiceTest {
@@ -28,6 +31,7 @@ class ScreeningServiceTest {
     private final String genre = "genre";
     private final int length = 10;
     private final Movie movie = new Movie(title, genre, length);
+    private final MovieProjection movieProjection = new MovieProjection(title, genre, length);
     private final String name = "egyes";
     private final int rowNum = 10;
     private final int colNum = 10;
@@ -55,6 +59,10 @@ class ScreeningServiceTest {
 
     @Mock
     private MovieDaoImpl movieDaoMock;
+    private MovieDaoImpl movieDao;
+
+    @Mock
+    private JpaMovieRepository jpaMovieRepository;
 
     @Mock
     private RoomDaoImpl roomDaoMock;
@@ -68,55 +76,116 @@ class ScreeningServiceTest {
     @Mock
     private List<Screening> screenings;
 
+    @Mock
+    private UserService userService;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
+        movieDao = new MovieDaoImpl(jpaMovieRepository);
         screeningDao = new ScreeningDaoImpl(jpaScreeningRepository);
+        screeningService = new ScreeningService(screeningDaoMock,movieDao);
         userServiceMock.signIn("admin", "admin");
         movieDaoMock.createMovie(movie);
         roomDaoMock.createRoom(room);
         screeningDaoMock.createScreening(screening1);
     }
 
-//    @Test
-//    public void checkScreeningDateCollapseWithoutBreakShouldReturnFalse() {
-//        boolean result = screeningService.checkScreeningDateCollapseWithoutBreak(screening1, screening3);
-//
-//        assertThat(result, equalTo(false));
-//    }
-//
-//    @Test
-//    public void checkScreeningDateCollapseWithoutBreakShouldReturnTrue() {
-//        boolean result = screeningService.checkScreeningDateCollapseWithoutBreak(screening1, screening4);
-//
-//        assertThat(result, equalTo(true));
-//    }
-//
-//    @Test
-//    public void checkScreeningDateCollapseWithBreakShouldReturnFalse() {
-//        boolean result = screeningService.checkScreeningDateCollapseWithBreak(screening1, screening2);
-//
-//        assertThat(result, equalTo(false));
-//    }
-//
-//    @Test
-//    public void checkScreeningDateCollapseWithBreakShouldReturnTrue() {
-//        boolean result = screeningService.checkScreeningDateCollapseWithBreak(screening1, screening3);
-//
-//        assertThat(result, equalTo(true));
-//    }
-//
-//
-//    @Test
-//    public void listScreeningsTestShouldReturnListOfScreenings() {
-//        // Given
-//        given(screeningService.listScreening()).willReturn(screenings);
-//
-//        // When
-//        List<Screening> result = screeningService.listScreening();
-//
-//        // Then
-//        assertThat(result, equalTo(screenings));
-//    }
+    @Test
+    public void testToStringScreeningShouldReturnTheScreeningAsString() {
+        List<MovieProjection> movieList = new ArrayList<>();
+        movieList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieList);
+        String result = screeningService.toStringScreening(screening1);
+        assertThat(result, equalTo("title (genre, 10 minutes), screened in room egyes, at 2020-12-20 15:30"));
+    }
+
+    @Test
+    public void testCreateScreeningShouldReturnEmptyStringIfTheScreeningCanBeCreated() {
+        List<Screening> screeningList = new ArrayList<>();
+        given(screeningService.listScreening()).willReturn(screeningList);
+
+        String result = screeningService.createScreening(title, name, localDateTime1);
+        assertThat(result, equalTo(""));
+    }
+
+    @Test
+    public void testCreateScreeningShouldReturnErrorStringIfTheScreeningCollapseWithBreak() {
+        List<Screening> screeningList = new ArrayList<>();
+        screeningList.add(screening1);
+        List<MovieProjection> movieList = new ArrayList<>();
+        movieList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieList);
+        given(screeningService.listScreening()).willReturn(screeningList);
+
+        String result = screeningService.createScreening(title, name, localDateTime3);
+        assertThat(result, equalTo("This would start in the break period after another screening in this room"));
+    }
+
+    @Test
+    public void testCreateScreeningShouldReturnErrorStringIfTheScreeningCollapseWithScreening() {
+        List<Screening> screeningList = new ArrayList<>();
+        screeningList.add(screening1);
+        List<MovieProjection> movieList = new ArrayList<>();
+        movieList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieList);
+        given(screeningService.listScreening()).willReturn(screeningList);
+
+        String result = screeningService.createScreening(title, name, localDateTime2);
+        assertThat(result, equalTo("There is an overlapping screening"));
+    }
+
+    @Test
+    public void checkScreeningDateCollapseWithoutBreakShouldReturnFalse() {
+        List<MovieProjection> movieList = new ArrayList<>();
+        movieList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieList);
+        boolean result = screeningService.checkScreeningDateCollapseWithoutBreak(screening1, screening2);
+
+        assertThat(result, equalTo(false));
+    }
+
+    @Test
+    public void checkScreeningDateCollapseWithoutBreakShouldReturnTrue() {
+        List<MovieProjection> movieList = new ArrayList<>();
+        movieList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieList);
+        boolean result = screeningService.checkScreeningDateCollapseWithoutBreak(screening1, screening3);
+
+        assertThat(result, equalTo(true));
+    }
+
+    @Test
+    public void checkScreeningDateCollapseWithBreakShouldReturnFalse() {
+        List<MovieProjection> movieList = new ArrayList<>();
+        movieList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieList);
+        boolean result = screeningService.checkScreeningDateCollapseWithBreak(screening1, screening3);
+
+        assertThat(result, equalTo(false));
+    }
+
+    @Test
+    public void checkScreeningDateCollapseWithBreakShouldReturnTrue() {
+        List<MovieProjection> movieList = new ArrayList<>();
+        movieList.add(movieProjection);
+        given(jpaMovieRepository.findAll()).willReturn(movieList);
+        boolean result = screeningService.checkScreeningDateCollapseWithBreak(screening1, screening4);
+
+        assertThat(result, equalTo(true));
+    }
+
+
+    @Test
+    public void listScreeningsTestShouldReturnListOfScreenings() {
+        // Given
+        given(screeningService.listScreening()).willReturn(screenings);
+
+        // When
+        List<Screening> result = screeningService.listScreening();
+
+        // Then
+        assertThat(result, equalTo(screenings));
+    }
 
 }

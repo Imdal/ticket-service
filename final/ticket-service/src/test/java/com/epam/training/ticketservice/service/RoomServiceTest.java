@@ -54,6 +54,18 @@ class RoomServiceTest {
     }
 
     @Test
+    public void testDeleteRoom() {
+        roomDaoMock.createRoom(roomMock);
+        List<Room> expectedResult = new ArrayList<>();
+        given(roomService.listRooms()).willReturn(expectedResult);
+
+        roomService.deleteRoom(roomMock.getName());
+        List<Room> result = roomService.listRooms();
+        //Then
+        assertThat(result, equalTo(expectedResult));
+    }
+
+    @Test
     public void getRoomByTitleShouldReturnRoomWithTheGivenName() {
         // Given
         roomDao.createRoom(room);

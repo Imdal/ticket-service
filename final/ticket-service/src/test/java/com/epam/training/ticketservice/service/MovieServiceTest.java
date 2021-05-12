@@ -1,7 +1,10 @@
 package com.epam.training.ticketservice.service;
 
+import com.epam.training.ticketservice.dataaccess.UserDatabaseInitializer;
 import com.epam.training.ticketservice.dataaccess.dao.implementation.MovieDaoImpl;
+import com.epam.training.ticketservice.dataaccess.dao.implementation.UserDaoImpl;
 import com.epam.training.ticketservice.dataaccess.repository.JpaMovieRepository;
+import com.epam.training.ticketservice.dataaccess.repository.JpaUserRepository;
 import com.epam.training.ticketservice.domain.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,7 +17,6 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 class MovieServiceTest {
@@ -29,7 +31,14 @@ class MovieServiceTest {
     private MovieService movieService;
 
     @Mock
+    private JpaUserRepository jpaUserRepositoryMock;
+    @Mock
+    private UserDaoImpl userDaoMock;
+    private UserDaoImpl userDao;
     private UserService userService;
+
+    @Mock
+    UserDatabaseInitializer userDatabaseInitializer;
 
     @Mock
     private MovieDaoImpl movieDaoMock;
@@ -44,8 +53,9 @@ class MovieServiceTest {
 
     @BeforeEach
     public void setup() {
-//        userService.signIn("admin", "admin");
         MockitoAnnotations.openMocks(this);
+        userDao = new UserDaoImpl(jpaUserRepositoryMock);
+        userService = new UserService(userDaoMock);
         movieDao = new MovieDaoImpl(jpaMovieRepositoryMock);
         movieService =  new MovieService(movieDaoMock);
     }
@@ -58,14 +68,6 @@ class MovieServiceTest {
 //        movieService.deleteMovie(title);
 //    }
 
-//    @Test
-//    public void testCreateMovie() {
-//        userService.signIn("admin", "admin");
-//        movieService.createMovie(title, genre, length);
-//
-//        //Then
-//        verify(movieServiceMock, times(1)).createMovie(title, genre, length);
-//    }
 //
 //    @Test
 //    public void testUpdateMovie() {
@@ -77,15 +79,18 @@ class MovieServiceTest {
 //        verify(movieServiceMock, times(1)).updateMovie(title, genre, length2);
 //    }
 //
-//    @Test
-//    public void testDeleteMovie() {
-//        userService.signIn("admin", "admin");
-//        movieService.createMovie(title, genre, length);
-//        movieServiceMock.deleteMovie(title);
-//
-//        //Then
-//        verify(movieServiceMock, times(1)).deleteMovie(title);
-//    }
+
+    @Test
+    public void testDeleteMovie() {
+        movieDaoMock.createMovie(movieMock);
+        List<Movie> expectedResult = new ArrayList<>();
+        given(movieService.listMovies()).willReturn(expectedResult);
+
+        movieService.deleteMovie(movieMock.getTitle());
+        List<Movie> result = movieService.listMovies();
+        //Then
+        assertThat(result, equalTo(expectedResult));
+    }
 
     @Test
     public void getMovieByTitleShouldReturnNullIfTheMovieNotExists() {

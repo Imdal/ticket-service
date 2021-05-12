@@ -2,6 +2,7 @@ package com.epam.training.ticketservice.service;
 
 import com.epam.training.ticketservice.dataaccess.dao.implementation.ScreeningDaoImpl;
 import com.epam.training.ticketservice.dataaccess.dao.implementation.UserDaoImpl;
+import com.epam.training.ticketservice.dataaccess.projection.UserProjection;
 import com.epam.training.ticketservice.dataaccess.repository.JpaScreeningRepository;
 import com.epam.training.ticketservice.dataaccess.repository.JpaUserRepository;
 import com.epam.training.ticketservice.domain.Screening;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -27,6 +29,7 @@ class UserServiceTest {
     @Mock
     private User userMock;
     private User user = new User(username, password, accountType);
+    private UserProjection userProjection = new UserProjection(username, password, accountType);
 
 
     @Mock
@@ -45,7 +48,25 @@ class UserServiceTest {
     public void setup() {
         MockitoAnnotations.openMocks(this);
         userDao = new UserDaoImpl(jpaUserRepository);
-        userService = new UserService(userDaoMock);
+        userService = new UserService(userDao);
+    }
+
+    @Test
+    public void signInShouldReturnFalseIfWrongPasswordGiven() {
+        List<UserProjection> userProjectionList = new ArrayList<>();
+        userProjectionList.add(userProjection);
+        given(jpaUserRepository.findAll()).willReturn(userProjectionList);
+        boolean result = userService.signIn(username,"1234");
+        assertThat(result, equalTo(false));
+    }
+
+    @Test
+    public void signInShouldReturnTrueIfCorrectPasswordGiven() {
+        List<UserProjection> userProjectionList = new ArrayList<>();
+        userProjectionList.add(userProjection);
+        given(jpaUserRepository.findAll()).willReturn(userProjectionList);
+        boolean result = userService.signIn(username,password);
+        assertThat(result, equalTo(true));
     }
 
 
@@ -53,37 +74,55 @@ class UserServiceTest {
     @Test
     public void isUserSignedInShouldReturnFalse() {
         // When
+        userService.signOut();
         boolean result = userService.isUserSignedIn();
 
         // Then
         assertThat(result, equalTo(false));
     }
 
-//    @Test
-//    public void isUserSignedInShouldReturnTrue() {
-//        // Given
-//        userServiceMock.signIn(username, password);
-//
-//        // When
-//        boolean result = userService.isUserSignedIn();
-//
-//        // Then
-//        assertThat(result, equalTo(true));
-//    }
-//
-//    @Test
-//    public void describeAccountShouldReturnUser() {
-//        // Given
-//        userServiceMock.signIn(username, password);
-//        given(userService.describeAccount()).willReturn(user);
-//
-//        // When
-//        userService.signIn(username, password);
-//        User result = userService.describeAccount();
-//
-//        // Then
-//        assertThat(result, equalTo(user));
-//    }
+    @Test
+    public void isUserSignedInShouldReturnTrue() {
+        // Given
+        List<UserProjection> userProjectionList = new ArrayList<>();
+        userProjectionList.add(userProjection);
+        given(jpaUserRepository.findAll()).willReturn(userProjectionList);
+        userService.signIn(username,password);
+
+        // When
+        boolean result = userService.isUserSignedIn();
+
+        // Then
+        assertThat(result, equalTo(true));
+    }
+
+    @Test
+    public void describeAccountShouldReturnUser() {
+        // Given
+        List<UserProjection> userProjectionList = new ArrayList<>();
+        userProjectionList.add(userProjection);
+        given(jpaUserRepository.findAll()).willReturn(userProjectionList);
+        userService.signIn(username,password);
+
+        // When
+        User result = userService.describeAccount();
+
+        // Then
+        assertThat(result.getUsername(), equalTo(user.getUsername()));
+        assertThat(result.getPassword(), equalTo(user.getPassword()));
+        assertThat(result.getAccountType(), equalTo(user.getAccountType()));
+    }
+
+    @Test
+    public void describeAccountShouldReturnNullIfUserNotSignedIn() {
+        userService.signOut();
+
+        // When
+        User result = userService.describeAccount();
+
+        // Then
+        assertThat(result, equalTo(null));
+    }
 
 
 
